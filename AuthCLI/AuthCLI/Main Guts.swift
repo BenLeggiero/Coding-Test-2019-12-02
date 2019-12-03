@@ -14,47 +14,105 @@ import SpecialString
 
 
 
-// MARK: - Setup
+internal class AuthenticatorDelegate: Authenticator.Delegate {
+    
+    // MARK: End states
+    
+    func authenticationFailed(cause: AuthenticationFailure) {
+        print("Could not complete authentication:", cause.localizedDescription)
+    }
+    
+    
+    func authenticationSuccessful(account: UserAccount, sessionToken: SessionToken) {
+        loginSuccessful(account: account)
+    }
+    
+    
+    // MARK: Collecting Info
+    
+    func onAuthenticatorNeedsUserIntent(onUserDidExpressIntent: @escaping OnUserDidExpressIntent) {
 
-/// Prompts the user for their intent, retrying on bad input
-internal func promptForUserIntent() -> UserIntent {
+        let prompt = "Are you (L)ogging into an existing account, or a (R)egistering a new one?"
+        
+        while true {
+            guard let rawUserResponse = getUserInputFromCli(prompt: prompt) else {
+                exit(0)
+            }
+            
+            guard
+                let userIntent = UserIntent(
+                    rawUserInput: rawUserResponse,
+                    expectedPrefixes: (
+                        loggingIn: "L",
+                        registering: "R"
+                    )
+                )
+                else
+            {
+                print("That is not a known option.\n")
+                continue
+            }
+            
+            return onUserDidExpressIntent(.success(userIntent))
+        }
+    }
     
-    let prompt = "Are you (L)ogging into an existing account, or a (R)egistering a new one?"
     
-    while true {
-        guard let rawUserResponse = getUserInputFromCli(prompt: prompt) else {
+    func onAuthenticatorNeedsUserDisplayName(onUserDidProvideDisplayName: @escaping OnUserDidProvideDisplayName) {
+        guard let displayName = promptForUserDisplayName() else {
             exit(0)
         }
-        guard
-            let userIntent = UserIntent(rawUserInput: rawUserResponse,
-                                        expectedPrefixes: (
-                                            loggingIn: "L",
-                                            registering: "R"
-                )
-            )
-            else
-        {
-            print("That is not a known option.\n")
-            continue
+        
+        return onUserDidProvideDisplayName(.success(displayName))
+    }
+    
+    
+    func onAuthenticatorNeedsUserPassword(onUserDidProvidePassword: @escaping OnUserDidProvidePassword) {
+        guard let password = promptForUserPassword() else {
+            exit(0)
         }
-        return userIntent
+        
+        return onUserDidProvidePassword(.success(password))
+    }
+    
+    
+    // MARK: Edge Case Mitigation
+    
+    func userSuppliedInvalidDisplayName() -> InappropriateDisplayNameOrPasswordMitigation {
+        informUserOfInvalidDisplayName()
+        return .retry
+    }
+    
+    
+    func userSuppliedUnregisteredDisplayName() -> InappropriateDisplayNameOrPasswordMitigation {
+        informUserThatNoSuchDisplayNameExists()
+        return .retry
+    }
+    
+    
+    func userSuppliedAlreadyRegisteredDisplayName() -> InappropriateDisplayNameOrPasswordMitigation {
+        informUserThatDisplayNameIsTaken()
+        return .retry
+    }
+    
+    
+    func userSuppliedBadPassword() -> InappropriateDisplayNameOrPasswordMitigation {
+        informUserThatPasswordDoesNotMatchDisplayName()
+        return .retry
     }
 }
 
 
 
-// MARK: - Login
+// MARK: - Semantic Print & Prompt Aliases
 
-internal func performLogin() {
-    while true {
-        guard let displayName = promptForUserDisplayName().sanitizedUsername() else {
-            informUserOfInvalidDisplayName()
-            continue
-        }
-        
-        let lookupResult = await(passing: displayName, to: AuthDatabase.shared.lookupUser(byDisplayName:onLookupComplete:))
-        return
-    }
+private func promptForUserDisplayName() -> UnsafeUserInput? {
+    getUserInputFromCli(prompt: "What is your name?")
+}
+
+private func promptForUserPassword() -> Password? {
+    return getUserInputFromCli(prompt: "Password:").map { Password($0.withoutTypeSafety()) }
+    
 }
 
 
@@ -63,36 +121,21 @@ private func informUserOfInvalidDisplayName() {
 }
 
 
-private func promptForUserDisplayName() -> UnsafeUserInput {
-    
+private func informUserThatNoSuchDisplayNameExists() {
+    print("Could not find any user with that name")
 }
 
 
-
-private extension UnsafeUserInput {
-    
-    private static let safeCharacters = CharacterSet.alphanumerics.union(.whitespaces)
-    private static var unsafeCharacters: CharacterSet { safeCharacters.inverted }
-    
-    func sanitizedUsername() -> String? {
-        let rawString = self.withoutTypeSafety()
-        guard
-            !rawString
-            .lazy
-            .flatMap({ $0.unicodeScalars })
-            .contains(where: Self.unsafeCharacters.contains)
-        else
-        {
-            return nil
-        }
-        return rawString
-    }
+private func informUserThatDisplayNameIsTaken() {
+    print("A user is already registered with that display name")
 }
 
 
+private func informUserThatPasswordDoesNotMatchDisplayName() {
+    print("Incorrect password")
+}
 
-// MARK: - Registration
 
-internal func beginRegistration() {
-    
+private func loginSuccessful(account: UserAccount) {
+    print("Login successful! Welcome back, \(account.displayName)")
 }

@@ -23,6 +23,11 @@
 		A3352A862395BD0F00F1BD7E /* UserAccountCoreDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A852395BD0F00F1BD7E /* UserAccountCoreDataEntity.swift */; };
 		A3352A882395BDB600F1BD7E /* AuthDatabaseCoreDataDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A872395BDB600F1BD7E /* AuthDatabaseCoreDataDataController.swift */; };
 		A3352A8B2395D9B900F1BD7E /* await.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A8A2395D9B900F1BD7E /* await.swift */; };
+		A3352A8E239628CB00F1BD7E /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A8D239628CB00F1BD7E /* Authenticator.swift */; };
+		A3352A90239629F200F1BD7E /* UserIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A8F239629F200F1BD7E /* UserIntent.swift */; };
+		A36DB11623963CE10041BE80 /* SessionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36DB11523963CE10041BE80 /* SessionToken.swift */; };
+		A36DB11823963FF00041BE80 /* Character Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36DB11723963FF00041BE80 /* Character Extensions.swift */; };
+		A36DB11A239640720041BE80 /* TestUserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36DB119239640720041BE80 /* TestUserAccount.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +59,11 @@
 		A3352A852395BD0F00F1BD7E /* UserAccountCoreDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountCoreDataEntity.swift; sourceTree = "<group>"; };
 		A3352A872395BDB600F1BD7E /* AuthDatabaseCoreDataDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDatabaseCoreDataDataController.swift; sourceTree = "<group>"; };
 		A3352A8A2395D9B900F1BD7E /* await.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = await.swift; sourceTree = "<group>"; };
+		A3352A8D239628CB00F1BD7E /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
+		A3352A8F239629F200F1BD7E /* UserIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIntent.swift; sourceTree = "<group>"; };
+		A36DB11523963CE10041BE80 /* SessionToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionToken.swift; sourceTree = "<group>"; };
+		A36DB11723963FF00041BE80 /* Character Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character Extensions.swift"; sourceTree = "<group>"; };
+		A36DB119239640720041BE80 /* TestUserAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserAccount.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +108,9 @@
 			isa = PBXGroup;
 			children = (
 				A3352A892395D9A600F1BD7E /* Async Utilities */,
-				A3352A7E2395BB4300F1BD7E /* Function Utilities */,
+				A3352A8C239628B400F1BD7E /* Authentication Backend's Frontend */,
 				A3352A7A2395BAC300F1BD7E /* Database */,
+				A3352A7E2395BB4300F1BD7E /* Function Utilities */,
 				A3352A612395A6EE00F1BD7E /* General External Extensions */,
 				A3352A5D2395A2B600F1BD7E /* Specialized Structures */,
 				A3352A5E2395A2C000F1BD7E /* Basic Xcode Requirements */,
@@ -110,6 +121,7 @@
 		A3352A3C2395A22600F1BD7E /* AuthBackendTests */ = {
 			isa = PBXGroup;
 			children = (
+				A36DB119239640720041BE80 /* TestUserAccount.swift */,
 				A3352A6E2395B1DC00F1BD7E /* TestPasswordHash.swift */,
 				A3352A3F2395A22600F1BD7E /* Info.plist */,
 			);
@@ -154,6 +166,7 @@
 		A3352A632395A70700F1BD7E /* Swift Standard Library */ = {
 			isa = PBXGroup;
 			children = (
+				A36DB11723963FF00041BE80 /* Character Extensions.swift */,
 				A3352A642395A71700F1BD7E /* Optional Extensions.swift */,
 				A3352A662395AA4D00F1BD7E /* Collection Extensions.swift */,
 				A3352A702395B33B00F1BD7E /* Data Extensions.swift */,
@@ -194,6 +207,16 @@
 				A3352A8A2395D9B900F1BD7E /* await.swift */,
 			);
 			path = "Async Utilities";
+			sourceTree = "<group>";
+		};
+		A3352A8C239628B400F1BD7E /* Authentication Backend's Frontend */ = {
+			isa = PBXGroup;
+			children = (
+				A3352A8D239628CB00F1BD7E /* Authenticator.swift */,
+				A3352A8F239629F200F1BD7E /* UserIntent.swift */,
+				A36DB11523963CE10041BE80 /* SessionToken.swift */,
+			);
+			path = "Authentication Backend's Frontend";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,13 +335,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3352A90239629F200F1BD7E /* UserIntent.swift in Sources */,
 				A3352A712395B33B00F1BD7E /* Data Extensions.swift in Sources */,
+				A36DB11823963FF00041BE80 /* Character Extensions.swift in Sources */,
 				A3352A652395A71700F1BD7E /* Optional Extensions.swift in Sources */,
 				A3352A882395BDB600F1BD7E /* AuthDatabaseCoreDataDataController.swift in Sources */,
 				A3352A802395BB5300F1BD7E /* Function Types.swift in Sources */,
 				A3352A672395AA4D00F1BD7E /* Collection Extensions.swift in Sources */,
 				A3352A602395A31F00F1BD7E /* PasswordHash.swift in Sources */,
+				A36DB11623963CE10041BE80 /* SessionToken.swift in Sources */,
 				A3352A692395AC4F00F1BD7E /* UUID Extensions.swift in Sources */,
+				A3352A8E239628CB00F1BD7E /* Authenticator.swift in Sources */,
 				A3352A862395BD0F00F1BD7E /* UserAccountCoreDataEntity.swift in Sources */,
 				A3352A8B2395D9B900F1BD7E /* await.swift in Sources */,
 				A3352A842395BC4600F1BD7E /* DataModel.xcdatamodeld in Sources */,
@@ -331,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A36DB11A239640720041BE80 /* TestUserAccount.swift in Sources */,
 				A3352A6F2395B1DC00F1BD7E /* TestPasswordHash.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import AuthBackend
+
+
 
 print("Welcome to Authenticator!")
 
-switch promptForUserIntent() {
-case .loggingIn:
-    performLogin()
-    
-case .registering:
-    beginRegistration()
-}
+
+
+let delegate = AuthenticatorDelegate()
+
+Authenticator.beginAuthenticationProcess(delegate: delegate)

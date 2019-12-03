@@ -50,3 +50,12 @@ public typealias AsyncFunctionTakingZeroArgumentsAndReturningResultImmediatelyTh
 /// - Parameters:
 ///   - callback: The callback which is called after everything is ready to use
 public typealias AsyncFunctionTakingZeroArgumentsAndReturningResultImmediatelyThenCallingCallback<Return, CallbackResult> = (_ callback: @escaping Callback<CallbackResult>) -> Return
+
+
+
+/// An asynchronous function which takes no arguments and returns the desired type immediately, but which expects you
+/// to wait for some callback to be called before using that argument.
+///
+/// - Parameters:
+///   - callback: The callback which is called after everything is ready to use
+public typealias AsyncFunctionTakingZeroArgumentsAndRequestingCallback<CallbackResult, CallbackError: Error> = (_ callback: @escaping Callback<Result<CallbackResult, CallbackError>>) -> Void

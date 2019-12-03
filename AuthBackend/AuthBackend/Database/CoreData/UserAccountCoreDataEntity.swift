@@ -26,11 +26,15 @@ internal extension UserAccount {
     
     /// Converts a CoreData entity version of a user account into a UserAccount
     init(_ coreDataEntity: UserAccountCoreDataEntity) {
-        self.id = coreDataEntity.id
-        self.displayName = coreDataEntity.displayName
-        self.passwordHash = PasswordHash(contents: coreDataEntity.passwordHash,
-                                         salt: coreDataEntity.passwordSalt,
-                                         approach: .init(coreDataRepresentation: coreDataEntity.passwordHashingApproach))
+        self.init(
+            id: coreDataEntity.id,
+            displayName: coreDataEntity.displayName,
+            passwordHash: PasswordHash(
+                contents: coreDataEntity.passwordHash,
+                salt: coreDataEntity.passwordSalt,
+                approach: .init(coreDataRepresentation: coreDataEntity.passwordHashingApproach)
+            )
+        )
     }
 }
 

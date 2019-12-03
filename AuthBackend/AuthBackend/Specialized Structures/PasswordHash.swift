@@ -46,7 +46,7 @@ public extension PasswordHash {
 
 
 
-// MARK: - Approaches
+// MARK: - Hashing Approaches
 
 public extension PasswordHash {
     
@@ -72,6 +72,15 @@ public extension PasswordHash {
         /// - Parameter knownApproach: The approach we know was actually used
         init(_ knownApproach: Approach) {
             self = .known(approach: knownApproach)
+        }
+        
+        
+        /// Returns the actual known approach, or `nil` if it isn't known
+        func knownOrNil() -> Approach? {
+            switch self {
+            case .unknown: return nil
+            case .known(let approach): return approach
+            }
         }
     }
 }
@@ -138,6 +147,24 @@ public extension PasswordHash.Approach {
     
     struct FailedToConvertPasswordToDataError: Error {}
     struct FailedToGenerateHashError: Error {}
+}
+
+
+
+// MARK: - Validation
+
+public extension PasswordHash {
+    /// Determines whether this hash matches the given raw password
+    ///
+    /// - Parameter password: The raw password from the user
+    /// - Returns: `true` iff the salted hash of the given password perfectly matches this one
+    /// - Throws: Any error which occurs when trying to generate the new hash
+    func matches(_ password: Password) throws -> Bool {
+        let regeneratedHash = try PasswordHash(rawUnsanitizedPassword: password,
+                                               salt: self.salt,
+                                               approach: self.approach.knownOrNil() ?? .default)
+        return regeneratedHash.contents == self.contents
+    }
 }
 
 

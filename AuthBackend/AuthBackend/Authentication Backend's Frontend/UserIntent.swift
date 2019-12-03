@@ -12,17 +12,21 @@ import SpecialString
 
 
 /// The user's intention here
-internal enum UserIntent {
+public enum UserIntent {
     /// The user is logging in with an existing account
     case loggingIn
     
     /// The user is registering a new account
     case registering
+    
+    // TODO:
+    // /// The user is continuing an existing session without logging back in
+    // case continuingSession
 }
 
 
 
-internal extension UserIntent {
+public extension UserIntent {
     
     /// Uses the given raw user input to determine their intent by comparing it to the given expected input prefixes
     ///

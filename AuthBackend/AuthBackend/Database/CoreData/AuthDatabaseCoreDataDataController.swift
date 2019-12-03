@@ -41,9 +41,10 @@ internal class AuthDatabaseCoreDataDataController: NSObject {
 internal extension AuthDatabaseCoreDataDataController {
     
     /// Saves the given user into the database
+    ///
     /// - Parameter userAccount: The account to save
     /// - Throws: Any error that occurred when interacting with CoreData
-    func registerNewUser(_ userAccount: UserAccount) throws {
+    func insert(newUser userAccount: UserAccount) throws {
 //        let userAccount = NSEntityDescription.insertNewObject(forEntityName: "UserAccount", into: managedObjectContext) as! UserAccountCoreDataEntity
 
         let context = persistentContainer.viewContext
@@ -60,14 +61,17 @@ internal extension AuthDatabaseCoreDataDataController {
         }
         
         let newUserAccount = NSManagedObject(entity: entity, insertInto: context) as! UserAccountCoreDataEntity
-        print(newUserAccount)
+        print(newUserAccount) // TODO: Remove when testing complete
         
         try persistentContainer.viewContext.save()
     }
     
     
     /// Attempts to find an existing user with the given display name
-    /// - Parameter displayName: The user's display name
+    ///
+    /// - Parameters:
+    ///   - displayName:      The user's display name
+    ///   - onLookupComplete: Called when the lookup has been performed
     func lookupUser(byDisplayName displayName: String, onLookupComplete: @escaping OnUserAccountLookupComplete) {
         func lookupSynchronously() throws -> UserAccount {
             let context = persistentContainer.viewContext
@@ -77,10 +81,10 @@ internal extension AuthDatabaseCoreDataDataController {
             do {
                 let fetchResults = try context.fetch(userFetchRequest)
                 guard let fetchedEmployees = fetchResults as? [UserAccountCoreDataEntity] else {
-                    throw InteractionError.userAccountFetchResultsWereNotUserAccounts
+                    throw AuthDatabase.InteractionError.userAccountFetchResultsWereNotUserAccounts
                 }
                 guard let firstFetchedUserAccount = fetchedEmployees.first else {
-                    throw UserError.noUsernameWithGivenDisplayName
+                    throw AuthDatabase.UserError.noUsernameWithGivenDisplayName
                 }
                 
                 return UserAccount(firstFetchedUserAccount)
@@ -93,22 +97,6 @@ internal extension AuthDatabaseCoreDataDataController {
         
         // TODO: How difficult would it be to put this on a background queue?
         onLookupComplete(Result(catching: lookupSynchronously))
-    }
-    
-    
-    
-    /// An error occurred while interacting with the CoreData database
-    enum InteractionError: Error {
-        /// Expected to fetch user account objects from the database, but what we got back weren't those
-        case userAccountFetchResultsWereNotUserAccounts
-    }
-    
-    
-    
-    /// An error occurred which might be the fault of the user
-    enum UserError: Error {
-        /// Searched the database for users by display name, but no user with that display name was in the database
-        case noUsernameWithGivenDisplayName
     }
     
     

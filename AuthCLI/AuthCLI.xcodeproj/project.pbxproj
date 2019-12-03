@@ -10,10 +10,8 @@
 		A3352A1F2395A20B00F1BD7E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A1E2395A20B00F1BD7E /* main.swift */; };
 		A3352A542395A24D00F1BD7E /* AuthBackend.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3352A532395A24D00F1BD7E /* AuthBackend.framework */; };
 		A3352A552395A24D00F1BD7E /* AuthBackend.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A3352A532395A24D00F1BD7E /* AuthBackend.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A3352A6B2395AE2C00F1BD7E /* UserIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A6A2395AE2B00F1BD7E /* UserIntent.swift */; };
 		A3352A6D2395AEC400F1BD7E /* Input conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A6C2395AEC400F1BD7E /* Input conveniences.swift */; };
 		A3352A732395B55000F1BD7E /* Main Guts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A722395B55000F1BD7E /* Main Guts.swift */; };
-		A3352A762395B60E00F1BD7E /* Character Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A752395B60E00F1BD7E /* Character Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,10 +41,8 @@
 		A3352A1B2395A20B00F1BD7E /* AuthCLI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AuthCLI; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3352A1E2395A20B00F1BD7E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		A3352A532395A24D00F1BD7E /* AuthBackend.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthBackend.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A3352A6A2395AE2B00F1BD7E /* UserIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIntent.swift; sourceTree = "<group>"; };
 		A3352A6C2395AEC400F1BD7E /* Input conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Input conveniences.swift"; sourceTree = "<group>"; };
 		A3352A722395B55000F1BD7E /* Main Guts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Main Guts.swift"; sourceTree = "<group>"; };
-		A3352A752395B60E00F1BD7E /* Character Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,10 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				A3352A1E2395A20B00F1BD7E /* main.swift */,
-				A3352A6A2395AE2B00F1BD7E /* UserIntent.swift */,
 				A3352A722395B55000F1BD7E /* Main Guts.swift */,
 				A3352A772395B89700F1BD7E /* Utilities */,
-				A3352A742395B5F400F1BD7E /* General External Extensions */,
 			);
 			path = AuthCLI;
 			sourceTree = "<group>";
@@ -96,14 +90,6 @@
 				A3352A532395A24D00F1BD7E /* AuthBackend.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A3352A742395B5F400F1BD7E /* General External Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				A3352A752395B60E00F1BD7E /* Character Extensions.swift */,
-			);
-			path = "General External Extensions";
 			sourceTree = "<group>";
 		};
 		A3352A772395B89700F1BD7E /* Utilities */ = {
@@ -173,11 +159,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3352A6B2395AE2C00F1BD7E /* UserIntent.swift in Sources */,
 				A3352A6D2395AEC400F1BD7E /* Input conveniences.swift in Sources */,
 				A3352A732395B55000F1BD7E /* Main Guts.swift in Sources */,
 				A3352A1F2395A20B00F1BD7E /* main.swift in Sources */,
-				A3352A762395B60E00F1BD7E /* Character Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
