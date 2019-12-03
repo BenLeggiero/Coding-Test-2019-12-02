@@ -14,7 +14,10 @@ import SpecialString
 
 
 
-internal class AuthenticatorDelegate: Authenticator.Delegate {
+internal struct AuthenticatorDelegate: Authenticator.Delegate {
+    
+    internal init() {}
+    
     
     // MARK: End states
     

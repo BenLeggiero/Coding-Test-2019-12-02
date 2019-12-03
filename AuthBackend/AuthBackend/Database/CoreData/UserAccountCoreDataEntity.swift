@@ -11,7 +11,7 @@ import Cocoa
 
 
 /// Represents a `UserAccount` in CoreData
-@objc
+@objc(UserAccountCoreDataEntity)
 internal class UserAccountCoreDataEntity: NSManagedObject {
     @NSManaged var id: UUID
     @NSManaged var displayName: String

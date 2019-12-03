@@ -17,7 +17,18 @@ internal class AuthDatabaseCoreDataDataController: NSObject {
     
     
     internal init(onDatabaseDoneInitializing: @escaping OnDatabaseDoneInitializing) {
-        persistentContainer = NSPersistentContainer(name: "DataModel")
+        
+        let momdName = "DataModel"
+        
+        guard let modelURL = Bundle(for: type(of: self)).url(forResource: momdName, withExtension:"momd") else {
+            fatalError("Error loading model from bundle")
+        }
+
+        guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("Error initializing mom from: \(modelURL)")
+        }
+
+        persistentContainer = NSPersistentContainer(name: momdName, managedObjectModel: mom)
         
         super.init()
         
@@ -49,7 +60,10 @@ internal extension AuthDatabaseCoreDataDataController {
 
         let context = persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "UserAccount", in: context)!
-        entity.setValuesForKeys([
+        
+        let newUserAccount = NSManagedObject(entity: entity, insertInto: context) as! UserAccountCoreDataEntity
+        print(newUserAccount) // TODO: Remove when testing complete
+        newUserAccount.setValuesForKeys([
             "id" : userAccount.id,
             "displayName" : userAccount.displayName,
             "passwordHash" : userAccount.passwordHash.contents,
@@ -57,11 +71,8 @@ internal extension AuthDatabaseCoreDataDataController {
         ])
         
         if let approachForDatabase = userAccount.passwordHash.approach.coreDataRepresentation {
-            entity.setValue(approachForDatabase, forKey: "passwordHashingApproach")
+            newUserAccount.setValue(approachForDatabase, forKey: "passwordHashingApproach")
         }
-        
-        let newUserAccount = NSManagedObject(entity: entity, insertInto: context) as! UserAccountCoreDataEntity
-        print(newUserAccount) // TODO: Remove when testing complete
         
         try persistentContainer.viewContext.save()
     }
@@ -80,10 +91,10 @@ internal extension AuthDatabaseCoreDataDataController {
             
             do {
                 let fetchResults = try context.fetch(userFetchRequest)
-                guard let fetchedEmployees = fetchResults as? [UserAccountCoreDataEntity] else {
+                guard let fetchedUserAccounts = fetchResults as? [UserAccountCoreDataEntity] else {
                     throw AuthDatabase.InteractionError.userAccountFetchResultsWereNotUserAccounts
                 }
-                guard let firstFetchedUserAccount = fetchedEmployees.first else {
+                guard let firstFetchedUserAccount = fetchedUserAccounts.first else {
                     throw AuthDatabase.UserError.noUsernameWithGivenDisplayName
                 }
                 

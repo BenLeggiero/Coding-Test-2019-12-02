@@ -151,6 +151,9 @@ public enum AuthenticationFailure {
     /// The user provided a display name which does not meet our requirements for a display name
     case displayNameInvalid
     
+    /// The user provided a password which does not match a display name we have on record
+    case passwordIncorrect
+    
     /// The user tried to register with a display name which is already in use
     case displayNameAlreadyInUse
     
@@ -175,6 +178,9 @@ public extension AuthenticationFailure {
         case .displayNameInvalid:
             return "Invalid display name"
             
+        case .passwordIncorrect:
+            return "Incorrect password"
+            
         case .displayNameAlreadyInUse:
             return "Someone has already registered that display name"
             
@@ -198,6 +204,7 @@ private extension Authenticator {
     
     static var activeSessionTokens = Set<SessionToken>()
     static var lastTimeOutDate: Date? = nil
+    static var badPasswordCount: UInt8 = 0
     
     
     /// Asks the delegate to get the user's intent for this authentication session
@@ -278,7 +285,7 @@ private extension Authenticator {
                         
                         
                     case .success(let userAccount):
-                        return self.requestPassword(from: delegate, compareAgainstAccount: userAccount, attemptsSoFar: 0)
+                        return self.requestPassword(from: delegate, compareAgainstAccount: userAccount)
                     }
                 }
             }
@@ -291,12 +298,16 @@ private extension Authenticator {
     /// - Parameters:
     ///   - delegate:      The delegate which can get the user's password and respond accordingly
     ///   - userAccount:   The account we already fetched so we can know the user's name and password
-    ///   - attemtpsSoFar: The number of password comparison attempts performed so far
-    static func requestPassword(from delegate: Delegate, compareAgainstAccount userAccount: UserAccount, attemptsSoFar: UInt8) {
+    static func requestPassword(from delegate: Delegate, compareAgainstAccount userAccount: UserAccount) {
         
-        if let lastTimeOutDate = self.lastTimeOutDate,
-            Date().timeIntervalSince(lastTimeOutDate) > tooManyBadAttemptsCooldownInterval {
-            return delegate.authenticationFailed(cause: .tooManyBadPasswordAttempts)
+        if let lastTimeOutDate = self.lastTimeOutDate {
+            if Date().timeIntervalSince(lastTimeOutDate) < tooManyBadAttemptsCooldownInterval {
+                return delegate.authenticationFailed(cause: .tooManyBadPasswordAttempts)
+            }
+            else { // Out of time out
+                self.lastTimeOutDate = nil
+                self.badPasswordCount = 0
+            }
         }
         
         delegate.onAuthenticatorNeedsUserPassword { result in
@@ -305,26 +316,31 @@ private extension Authenticator {
                 return delegate.authenticationFailed(cause: .delegateDecidedFailure(delegateError: error))
                 
             case .success(let password):
-                let attemptsSoFarIncludingThisOne = attemptsSoFar + 1
+                let attemptsSoFarIncludingThisOne = self.badPasswordCount + 1
                 
                 do {
                     guard try userAccount.hasPassword(password) else {
+                        self.badPasswordCount += 1
+                        
                         guard attemptsSoFarIncludingThisOne <= maxPasswordAttempts else {
+                            self.lastTimeOutDate = Date()
                             return delegate.authenticationFailed(cause: .tooManyBadPasswordAttempts)
                         }
-
+                        
                         switch delegate.userSuppliedBadPassword() {
                         case .fail:
-                            return delegate.authenticationFailed(cause: .displayNameInvalid)
+                            return delegate.authenticationFailed(cause: .passwordIncorrect)
                             
                         case .retry:
-                            return self.requestPassword(from: delegate, compareAgainstAccount: userAccount, attemptsSoFar: attemptsSoFarIncludingThisOne)
+                            return self.requestPassword(from: delegate, compareAgainstAccount: userAccount)
                         }
                     }
                 }
                 catch {
                     return delegate.authenticationFailed(cause: .cryptoError)
                 }
+                
+                badPasswordCount = 0
                 
                 return loginSuccess(account: userAccount, delegate: delegate)
             }
