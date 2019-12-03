@@ -30,7 +30,7 @@ internal extension UserAccount {
         self.displayName = coreDataEntity.displayName
         self.passwordHash = PasswordHash(contents: coreDataEntity.passwordHash,
                                          salt: coreDataEntity.passwordSalt,
-                                         approach: PasswordHash.Approach(coreDataRepresentation: coreDataEntity.passwordHashingApproach) ?? .unknown)
+                                         approach: .init(coreDataRepresentation: coreDataEntity.passwordHashingApproach))
     }
 }
 
@@ -47,7 +47,7 @@ internal extension PasswordHash.Approach {
     ///
     /// If the given string is `nil`, or does not represent an approach, then `nil` is returned
     ///
-    /// - Parameter coreDataRepresentation: <#coreDataRepresentation description#>
+    /// - Parameter coreDataRepresentation: The representation used in the CoreData database
     init?(coreDataRepresentation: String?) {
         guard
             let approachString = coreDataRepresentation,
@@ -62,10 +62,32 @@ internal extension PasswordHash.Approach {
     
     
     /// The One True™ representation of this approach in a CoreData database
-    private var coreDataRepresentation: String {
+    fileprivate var coreDataRepresentation: String {
         switch self {
         case .sha512:
             return "SHA512"
+        }
+    }
+}
+
+
+
+internal extension PasswordHash.UsedApproach {
+    
+    init(coreDataRepresentation: String?) {
+        if let approach = PasswordHash.Approach(coreDataRepresentation: coreDataRepresentation) {
+            self = .known(approach: approach)
+        }
+        else {
+            self = .unknown
+        }
+    }
+    
+    
+    var coreDataRepresentation: String? {
+        switch self {
+        case .unknown: return nil
+        case .known(let approach): return approach.coreDataRepresentation
         }
     }
 }

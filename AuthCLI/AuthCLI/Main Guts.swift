@@ -10,15 +10,19 @@
 
 import Foundation
 import AuthBackend
+import SpecialString
 
 
+
+// MARK: - Setup
 
 /// Prompts the user for their intent, retrying on bad input
 internal func promptForUserIntent() -> UserIntent {
     
+    let prompt = "Are you (L)ogging into an existing account, or a (R)egistering a new one?"
+    
     while true {
-        print("Are you (L)ogging into an existing account, or a (R)egistering a new one?", terminator: " ")
-        guard let rawUserResponse = getUserInputFromCli() else {
+        guard let rawUserResponse = getUserInputFromCli(prompt: prompt) else {
             exit(0)
         }
         guard
@@ -30,7 +34,7 @@ internal func promptForUserIntent() -> UserIntent {
             )
             else
         {
-            print("That is not a known option.")
+            print("That is not a known option.\n")
             continue
         }
         return userIntent
@@ -39,15 +43,55 @@ internal func promptForUserIntent() -> UserIntent {
 
 
 
+// MARK: - Login
+
 internal func performLogin() {
-    let displayName = promptForUserDisplayName()
-    
-    let lookupResult = await(passing: displayName, to: AuthDatabase.shared.lookupUser)
-    
-    lookupWaitSemaphore.wait()
+    while true {
+        guard let displayName = promptForUserDisplayName().sanitizedUsername() else {
+            informUserOfInvalidDisplayName()
+            continue
+        }
+        
+        let lookupResult = await(passing: displayName, to: AuthDatabase.shared.lookupUser(byDisplayName:onLookupComplete:))
+        return
+    }
 }
 
 
+private func informUserOfInvalidDisplayName() {
+    print("Invalid display name! Display names can only contain letters, numbers, and spaces")
+}
+
+
+private func promptForUserDisplayName() -> UnsafeUserInput {
+    
+}
+
+
+
+private extension UnsafeUserInput {
+    
+    private static let safeCharacters = CharacterSet.alphanumerics.union(.whitespaces)
+    private static var unsafeCharacters: CharacterSet { safeCharacters.inverted }
+    
+    func sanitizedUsername() -> String? {
+        let rawString = self.withoutTypeSafety()
+        guard
+            !rawString
+            .lazy
+            .flatMap({ $0.unicodeScalars })
+            .contains(where: Self.unsafeCharacters.contains)
+        else
+        {
+            return nil
+        }
+        return rawString
+    }
+}
+
+
+
+// MARK: - Registration
 
 internal func beginRegistration() {
     

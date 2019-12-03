@@ -22,6 +22,7 @@
 		A3352A842395BC4600F1BD7E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3352A822395BC4500F1BD7E /* DataModel.xcdatamodeld */; };
 		A3352A862395BD0F00F1BD7E /* UserAccountCoreDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A852395BD0F00F1BD7E /* UserAccountCoreDataEntity.swift */; };
 		A3352A882395BDB600F1BD7E /* AuthDatabaseCoreDataDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A872395BDB600F1BD7E /* AuthDatabaseCoreDataDataController.swift */; };
+		A3352A8B2395D9B900F1BD7E /* await.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A8A2395D9B900F1BD7E /* await.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		A3352A832395BC4600F1BD7E /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		A3352A852395BD0F00F1BD7E /* UserAccountCoreDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountCoreDataEntity.swift; sourceTree = "<group>"; };
 		A3352A872395BDB600F1BD7E /* AuthDatabaseCoreDataDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDatabaseCoreDataDataController.swift; sourceTree = "<group>"; };
+		A3352A8A2395D9B900F1BD7E /* await.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = await.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 		A3352A312395A22500F1BD7E /* AuthBackend */ = {
 			isa = PBXGroup;
 			children = (
+				A3352A892395D9A600F1BD7E /* Async Utilities */,
 				A3352A7E2395BB4300F1BD7E /* Function Utilities */,
 				A3352A7A2395BAC300F1BD7E /* Database */,
 				A3352A612395A6EE00F1BD7E /* General External Extensions */,
@@ -183,6 +186,14 @@
 				A3352A872395BDB600F1BD7E /* AuthDatabaseCoreDataDataController.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		A3352A892395D9A600F1BD7E /* Async Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A3352A8A2395D9B900F1BD7E /* await.swift */,
+			);
+			path = "Async Utilities";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,6 +320,7 @@
 				A3352A602395A31F00F1BD7E /* PasswordHash.swift in Sources */,
 				A3352A692395AC4F00F1BD7E /* UUID Extensions.swift in Sources */,
 				A3352A862395BD0F00F1BD7E /* UserAccountCoreDataEntity.swift in Sources */,
+				A3352A8B2395D9B900F1BD7E /* await.swift in Sources */,
 				A3352A842395BC4600F1BD7E /* DataModel.xcdatamodeld in Sources */,
 				A3352A7C2395BAD300F1BD7E /* AuthDatabase.swift in Sources */,
 				A3352A5C2395A2B200F1BD7E /* UserAccount.swift in Sources */,

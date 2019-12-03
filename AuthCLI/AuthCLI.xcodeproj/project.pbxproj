@@ -14,7 +14,6 @@
 		A3352A6D2395AEC400F1BD7E /* Input conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A6C2395AEC400F1BD7E /* Input conveniences.swift */; };
 		A3352A732395B55000F1BD7E /* Main Guts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A722395B55000F1BD7E /* Main Guts.swift */; };
 		A3352A762395B60E00F1BD7E /* Character Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A752395B60E00F1BD7E /* Character Extensions.swift */; };
-		A3352A792395B8AA00F1BD7E /* await.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3352A782395B8AA00F1BD7E /* await.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,7 +47,6 @@
 		A3352A6C2395AEC400F1BD7E /* Input conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Input conveniences.swift"; sourceTree = "<group>"; };
 		A3352A722395B55000F1BD7E /* Main Guts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Main Guts.swift"; sourceTree = "<group>"; };
 		A3352A752395B60E00F1BD7E /* Character Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Character Extensions.swift"; sourceTree = "<group>"; };
-		A3352A782395B8AA00F1BD7E /* await.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = await.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				A3352A6C2395AEC400F1BD7E /* Input conveniences.swift */,
-				A3352A782395B8AA00F1BD7E /* await.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -178,7 +175,6 @@
 			files = (
 				A3352A6B2395AE2C00F1BD7E /* UserIntent.swift in Sources */,
 				A3352A6D2395AEC400F1BD7E /* Input conveniences.swift in Sources */,
-				A3352A792395B8AA00F1BD7E /* await.swift in Sources */,
 				A3352A732395B55000F1BD7E /* Main Guts.swift in Sources */,
 				A3352A1F2395A20B00F1BD7E /* main.swift in Sources */,
 				A3352A762395B60E00F1BD7E /* Character Extensions.swift in Sources */,
