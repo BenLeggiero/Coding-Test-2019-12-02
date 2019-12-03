@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:AuthGUI/AuthGUI.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:AuthCLI/AuthCLI.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:AuthCLI/../AuthBackend/AuthBackend.xcodeproj">
+   </FileRef>
+</Workspace>
